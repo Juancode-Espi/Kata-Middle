@@ -1,0 +1,37 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: release-service
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:releases_db}
+    username: ${DB_USER:releases_user}
+    password: ${DB_PASS:releases_pass}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+integration:
+  service:
+    url: ${INTEGRATION_SERVICE_URL:http://localhost:8083}
+
+rules:
+  service:
+    url: ${RULES_SERVICE_URL:http://localhost:8082}
+
+notification:
+  service:
+    url: ${NOTIFICATION_SERVICE_URL:http://localhost:8084}
+
+logging:
+  level:
+    com.kata.release: DEBUG

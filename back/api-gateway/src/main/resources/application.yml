@@ -1,0 +1,34 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            exposedHeaders: "*"
+      routes:
+        - id: releases-service
+          uri: ${RELEASE_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/releases/**
+          filters:
+            - RewritePath=/api/releases(?<segment>.*), /releases${segment}
+
+        - id: integration-service
+          uri: ${INTEGRATION_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/api/integration/**
+          filters:
+            - RewritePath=/api/integration(?<segment>.*), /integration${segment}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO

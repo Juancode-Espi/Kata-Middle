@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: releases_db
+      POSTGRES_USER: releases_user
+      POSTGRES_PASSWORD: releases_pass
+    ports:
+      - "5432:5432"
+    networks:
+      - release-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U releases_user -d releases_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    networks:
+      - release-net
+
+  integration-service:
+    build: ./back/integration-service
+    container_name: integration-service
+    ports:
+      - "8083:8083"
+    networks:
+      - release-net
+
+  rules-service:
+    build: ./back/rules-service
+    container_name: rules-service
+    ports:
+      - "8082:8082"
+    networks:
+      - release-net
+
+  notification-service:
+    build: ./back/notification-service
+    container_name: notification-service
+    ports:
+      - "8084:8084"
+    environment:
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+      NOTIFICATION_FROM: noreply@releases.local
+    networks:
+      - release-net
+    depends_on:
+      - mailhog
+
+  release-service:
+    build: ./back/release-service
+    container_name: release-service
+    ports:
+      - "8081:8081"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: releases_db
+      DB_USER: releases_user
+      DB_PASS: releases_pass
+      INTEGRATION_SERVICE_URL: http://integration-service:8083
+      RULES_SERVICE_URL: http://rules-service:8082
+      NOTIFICATION_SERVICE_URL: http://notification-service:8084
+    networks:
+      - release-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+      integration-service:
+        condition: service_started
+      rules-service:
+        condition: service_started
+      notification-service:
+        condition: service_started
+
+  api-gateway:
+    build: ./back/api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      RELEASE_SERVICE_URL: http://release-service:8081
+      INTEGRATION_SERVICE_URL: http://integration-service:8083
+    networks:
+      - release-net
+    depends_on:
+      - release-service
+
+  frontend:
+    build: ./front
+    container_name: frontend
+    ports:
+      - "4200:80"
+    networks:
+      - release-net
+    depends_on:
+      - api-gateway
+
+networks:
+  release-net:
+    driver: bridge
