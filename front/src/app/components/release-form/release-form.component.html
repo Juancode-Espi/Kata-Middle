@@ -6,15 +6,17 @@
 
   <!-- Success Result -->
   <div *ngIf="submitted && result" class="result-banner" [class.approved]="result.estado === 'APROBADO_AUTO'" [class.pending]="result.estado === 'PENDIENTE'">
-    <div class="result-icon">{{ result.estado === 'APROBADO_AUTO' ? 'Aprobado' : 'Pendiente' }}</div>
-    <div class="result-content">
-      <h3>{{ result.estado === 'APROBADO_AUTO' ? 'Release Aprobado Automáticamente' : 'Requiere Aprobación Manual' }}</h3>
-      <p class="result-id">ID: {{ result.id }}</p>
-      <ul *ngIf="result.razonesRechazo && result.razonesRechazo.length > 0" class="reasons-list">
-        <li *ngFor="let r of result.razonesRechazo">{{ r }}</li>
-      </ul>
+    <div class="banner-top">
+      <div class="result-icon">{{ result.estado === 'APROBADO_AUTO' ? 'Aprobado' : 'Pendiente' }}</div>
+      <div class="result-content">
+        <h3>{{ result.estado === 'APROBADO_AUTO' ? 'Release Aprobado Automáticamente' : 'Requiere Aprobación Manual' }}</h3>
+        <p class="result-id">ID: {{ result.id }}</p>
+        <ul *ngIf="result.razonesRechazo && result.razonesRechazo.length > 0" class="reasons-list">
+          <li *ngFor="let r of result.razonesRechazo">{{ r }}</li>
+        </ul>
+      </div>
     </div>
-    <button class="btn-secondary" (click)="reset()">Nueva Solicitud</button>
+    <button class="btn-secondary full-width" (click)="reset()">Nueva Solicitud</button>
   </div>
 
   <!-- Error Banner -->
@@ -50,13 +52,13 @@
       </span>
     </div>
 
-    <div class="form-row">
+    <div class="form-row pr-row">
       <div class="form-group">
         <label for="prId">PR / Historia JIRA</label>
         <div class="input-with-action">
           <input id="prId" formControlName="prId" type="text" placeholder="Ej: owner/repo/pull/123" />
           <button type="button" class="btn-ai" (click)="analyzeWithDeepWiki()" [disabled]="analyzing" title="Analizar con DeepWiki AI">
-            <span *ngIf="!analyzing">✨ Analizar</span>
+            <span *ngIf="!analyzing"> Analizar</span>
             <span *ngIf="analyzing" class="spinner-small">...</span>
           </button>
         </div>

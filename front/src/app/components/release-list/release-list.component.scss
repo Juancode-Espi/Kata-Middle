@@ -1,9 +1,10 @@
 .list-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2rem;
   backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
 }
 
 .list-header {
@@ -12,22 +13,22 @@
   align-items: flex-start;
   margin-bottom: 1.5rem;
 
-  h2 { margin: 0 0 0.25rem; font-size: 1.3rem; font-weight: 700; color: #e2e8f0; }
-  p { margin: 0; font-size: 0.8rem; color: #64748b; }
+  h2 { margin: 0 0 0.25rem; font-size: 1.3rem; font-weight: 700; color: var(--text-primary); }
+  p { margin: 0; font-size: 0.8rem; color: var(--text-muted); }
 }
 
 .btn-refresh {
-  background: rgba(99, 102, 241, 0.15);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(133, 163, 188, 0.15);
+  border: 1px solid rgba(133, 163, 188, 0.3);
   border-radius: 8px;
-  color: #a5b4fc;
+  color: var(--accent);
   padding: 0.5rem 1rem;
   cursor: pointer;
   font-size: 0.85rem;
   transition: all 0.2s;
 
   &:hover:not(:disabled) {
-    background: rgba(99, 102, 241, 0.25);
+    background: rgba(133, 163, 188, 0.25);
   }
   &:disabled { opacity: 0.5; cursor: not-allowed; }
 }
@@ -35,7 +36,8 @@
 .table-wrapper {
   overflow-x: auto;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  background: #ffffff;
 }
 
 table {
@@ -44,33 +46,33 @@ table {
   font-size: 0.88rem;
 
   thead {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--bg-primary);
     th {
       padding: 0.75rem 1rem;
       text-align: left;
-      color: #64748b;
+      color: var(--text-muted);
       font-weight: 600;
       text-transform: uppercase;
       font-size: 0.75rem;
       letter-spacing: 0.05em;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid var(--border);
       white-space: nowrap;
     }
   }
 
   tbody tr {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid var(--border);
     transition: background 0.15s;
 
     &:last-child { border-bottom: none; }
-    &:hover { background: rgba(255, 255, 255, 0.03); }
+    &:hover { background: var(--bg-primary); }
 
-    &.row-approved { border-left: 3px solid rgba(16, 185, 129, 0.5); }
-    &.row-pending { border-left: 3px solid rgba(245, 158, 11, 0.5); }
+    &.row-approved { border-left: 3px solid var(--accent-light); }
+    &.row-pending { border-left: 3px solid #f59e0b; }
 
     td {
       padding: 0.75rem 1rem;
-      color: #cbd5e1;
+      color: var(--text-primary);
       vertical-align: middle;
     }
   }
@@ -85,14 +87,14 @@ table {
 
 .date-cell {
   white-space: nowrap;
-  color: #64748b !important;
+  color: var(--text-muted) !important;
   font-size: 0.8rem !important;
 }
 
 .badge-tipo {
-  background: rgba(99, 102, 241, 0.2);
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  color: #a5b4fc;
+  background: rgba(133, 163, 188, 0.15);
+  border: 1px solid rgba(133, 163, 188, 0.3);
+  color: var(--accent);
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
   font-size: 0.75rem;
@@ -108,18 +110,18 @@ table {
   white-space: nowrap;
 
   &.badge-approved {
-    background: rgba(16, 185, 129, 0.15);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: #34d399;
+    background: rgba(163, 201, 179, 0.2);
+    border: 1px solid rgba(163, 201, 179, 0.4);
+    color: #1e6c46;
   }
   &.badge-pending {
     background: rgba(245, 158, 11, 0.15);
     border: 1px solid rgba(245, 158, 11, 0.3);
-    color: #fbbf24;
+    color: #d97706;
   }
   &.badge-unknown {
-    background: rgba(100, 116, 139, 0.15);
-    color: #94a3b8;
+    background: rgba(100, 116, 139, 0.1);
+    color: var(--text-muted);
   }
 }
 
@@ -128,7 +130,7 @@ table {
 
   .reasons-count {
     font-size: 0.72rem;
-    color: #fbbf24;
+    color: #d97706;
     cursor: help;
   }
 
@@ -136,7 +138,7 @@ table {
     margin: 0.3rem 0 0;
     padding-left: 1.1rem;
     font-size: 0.75rem;
-    color: #94a3b8;
+    color: var(--text-secondary);
     li { margin-bottom: 0.15rem; }
   }
 }
@@ -144,7 +146,7 @@ table {
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
-  color: #475569;
+  color: var(--text-secondary);
 
   .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
   p { margin: 0.25rem 0; }
@@ -159,7 +161,7 @@ table {
 
 .skeleton-row {
   height: 48px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 100%);
+  background: linear-gradient(90deg, rgba(202, 215, 227, 0.3) 0%, rgba(202, 215, 227, 0.6) 50%, rgba(202, 215, 227, 0.3) 100%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 8px;
@@ -175,19 +177,19 @@ table {
   justify-content: space-between;
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid var(--border);
   font-size: 0.8rem;
-  color: #475569;
+  color: var(--text-secondary);
 
-  .footer-counts { color: #64748b; }
+  .footer-counts { color: var(--text-muted); }
 }
 
 .error-banner {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
-  color: #fca5a5;
+  color: #b91c1c;
   font-size: 0.9rem;
 }

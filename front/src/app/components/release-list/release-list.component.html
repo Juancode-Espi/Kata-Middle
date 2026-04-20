@@ -43,7 +43,7 @@
           <td>{{ r.cobertura != null ? r.cobertura + '%' : '—' }}</td>
           <td>
             <span class="badge" [ngClass]="badgeClass(r.estado)">
-              {{ r.estado === 'APROBADO_AUTO' ? '✅ Auto' : '⏳ Pendiente' }}
+              {{ r.estado === 'APROBADO_AUTO' ? ' Auto' : ' Pendiente' }}
             </span>
             <div *ngIf="r.razonesRechazo && r.razonesRechazo.length > 0" class="reasons-tooltip">
               <span class="reasons-count">{{ r.razonesRechazo.length }} razón(es)</span>
